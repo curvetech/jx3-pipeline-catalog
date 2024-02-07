@@ -50,18 +50,18 @@ spec:
           resources:
             # set requests for the pod here
             requests:
-              cpu: 400m
-              memory: 512Mi
+              cpu: 100m
+              memory: 128Mi
           script: |
             #!/usr/bin/env sh
             jx gitops variables
-        - image: node:14-slim
+        - image: node:18-slim
           name: build-npm-install
           resources: {}
           script: |
             #!/bin/sh
-            npm install
-        - image: node:14-slim
+            npm ci
+        - image: node:18-slim
           name: build-npm-test
           resources: {}
           script: |
@@ -77,7 +77,7 @@ spec:
             #!/busybox/sh
             source .jx/variables.sh
             cp /tekton/creds/.docker/config.json /kaniko/.docker/config.json
-            sleep 600
+            #sleep 600
             /kaniko/executor $KANIKO_FLAGS --context=/workspace/source --dockerfile=${DOCKERFILE_PATH:-Dockerfile} --destination=$PUSH_CONTAINER_REGISTRY/$DOCKER_REGISTRY_ORG/$APP_NAME:$VERSION
         - image: ghcr.io/jenkins-x/jx-boot:3.10.135
           name: promote-changelog
