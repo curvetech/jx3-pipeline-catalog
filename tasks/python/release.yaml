@@ -50,12 +50,12 @@ spec:
           script: |
             #!/usr/bin/env sh
             jx gitops variables
-        - image: python:3.6.12-alpine
+        - image: python:3.11.11-slim
           name: build-python-unittest
           resources: {}
           script: |
             #!/bin/sh
-            python -m unittest
+            python -m unittest discover -s ./test/
         - image: ghcr.io/jenkins-x/jx-registry:0.1.11
           name: check-registry
           resources: {}
